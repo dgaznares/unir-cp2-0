@@ -31,7 +31,8 @@ module "aks" {
   location             = module.resource_group.resource_group_location
   storage_account_name = "unirdgmstorageaccount"
   dns_prefix           = "unirdgmaks"
-
+  role_assignment_scope = module.acr.acr_id
+  
 }
 module "vm" {
   source              = "./modules/vm"

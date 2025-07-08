@@ -37,3 +37,12 @@ variable "storage_account_name" {
   description = "El nombre del Azure Storage Account para el AKS."
   type        = string
 }
+variable "role_assignment_scope" {
+  description = "El ámbito del rol de asignación para el AKS."
+  type        = string
+}
+variable "skip_service_principal_aad_check" {
+    type = bool
+    description = "Indica si se debe omitir la verificación de AAD para el Service Principal."
+    default = true
+}

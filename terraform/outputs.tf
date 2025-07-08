@@ -50,16 +50,27 @@ output "aks_fqdn" {
   value       = module.aks.aks_fqdn
 }
 
-output "storage_account_name" {
+output "aks_storage_account_name" {
   description = "Nombre de la cuenta de almacenamiento"
   value       = module.aks.storage_account_name
 }
 
-output "storage_account_primary_key" {
+output "aks_storage_account_primary_key" {
   description = "Clave primaria de la cuenta de almacenamiento"
   value       = module.aks.storage_account_primary_key
   sensitive   = true
 }
+output "aks_role_assignment_scope" {
+  description = "El ámbito del rol de asignación para el AKS."
+  value = module.aks.role_assignment_scope
+  
+}
+output "aks_skip_service_principal_aad_check" {
+  description = "Indica si se debe omitir la verificación de AAD para el Service Principal."
+  value = module.aks.skip_service_principal_aad_check
+
+}
+
 # Outputs para la máquina virtual
 # Este archivo define las salidas que se generarán al aplicar el módulo de VM.
 output "virtual_network_id" {
