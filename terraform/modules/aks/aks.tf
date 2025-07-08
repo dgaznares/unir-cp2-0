@@ -28,3 +28,10 @@ resource "azurerm_storage_account" "st_account" {
   tags = var.tags
   
 }
+resource "azurerm_role_assignment" "ra" {
+  principal_id                     = azurerm_kubernetes_cluster.kub_cluster.kubelet_identity[0].object_id
+  role_definition_name             = "AcrPull"
+  scope                            = var.role_assignment_scope
+  skip_service_principal_aad_check = var.skip_service_principal_aad_check
+
+}
