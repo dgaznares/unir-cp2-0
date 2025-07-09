@@ -123,48 +123,9 @@ output "linux_nsg_name" {
   description = "Nombre del grupo de seguridad de red"
   value       = module.vm.linux_nsg_name
 }
-output "linux_nsr_name" {
+output "linux_nsr_values" {
   description = "Nombre de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_name
+  value       = module.vm.linux_nsr_values
 }
-output "linux_nsr_priority" {
-  description = "Prioridad de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_priority
-}
-output "linux_nsr_direction" {
-  description = "Dirección de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_direction
-}
-output "linux_nsr_access" {
-  description = "Acceso de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_access
-}
-output "linux_nsr_protocol" {
-  description = "Protocolo de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_protocol
-}
-output "linux_nsr_source_port_range" {
-  description = "Rango de puertos de origen de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_source_port_range
-}
-output "linux_nsr_destination_port_range" {
-  description = "Rango de puertos de destino de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_destination_port_range
-}
-output "linux_nsr_source_address_prefix" {
-  description = "Prefijo de dirección de origen de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_source_address_prefix
-}
-output "linux_nsr_destination_address_prefix" {
-  description = "Prefijo de dirección de destino de la regla de seguridad de red"
-  value       = module.vm.linux_nsr_destination_address_prefix
-}
-output "linux_nsr_rg_name" {
-  description = "Nombre del grupo de recursos para la regla de seguridad de red"
-  value       = module.vm.linux_nsr_rg_name
-}
-output "linux_nsr_nsg_name" {
-  description = "Nombre del grupo de seguridad de red para la regla de seguridad"
-  value       = module.vm.linux_nsr_nsg_name
-}
+
 

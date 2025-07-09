@@ -55,19 +55,52 @@ resource "azurerm_network_security_group" "nsg" {
   tags = var.tags
 }
 
-resource "azurerm_network_security_rule" "nsr" {
-  name                        = var.nsr_name
-  priority                    = var.nsr_priority
-  direction                   = var.nsr_direction
-  access                      = var.nsr_access
-  protocol                    = var.nsr_protocol
+
+resource "azurerm_network_security_rule" "nsr-allow-22" {
+  name                        = "Allow-SSH-Port-22"
+  priority                    = 101
+  direction                   = var.nsr_direction_Inbound
+  access                      = var.nsr_access_Allow
+  protocol                    = var.nsr_protocol_Tcp
   source_port_range           = var.nsr_source_port_range
-  destination_port_range      = var.nsr_destination_port_range
+  destination_port_range      = "22" # Puerto SSH
   source_address_prefix       = var.nsr_source_address_prefix
   destination_address_prefix  = var.nsr_destination_address_prefix
   resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.nsg.name
+  description = "Regla que permiti acceso SSH al puerto 22."
 }
+
+resource "azurerm_network_security_rule" "nsr-allow-8080" {
+  name                        = "Allow-Port-8080"
+  priority                    = 201
+  direction                   = var.nsr_direction_Inbound
+  access                      = var.nsr_access_Allow
+  protocol                    = var.nsr_protocol_Tcp
+  source_port_range           = var.nsr_source_port_range
+  destination_port_range      = "8080" # Puerto 8080
+  source_address_prefix       = var.nsr_source_address_prefix
+  destination_address_prefix  = var.nsr_destination_address_prefix
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.nsg.name
+  description = "Regla que permiti acceso al puerto 8080."
+}
+
+resource "azurerm_network_security_rule" "nsr-allow-443" {
+  name                        = "Allow-Port-443"
+  priority                    = 301
+  direction                   = var.nsr_direction_Inbound
+  access                      = var.nsr_access_Allow
+  protocol                    = var.nsr_protocol_Tcp
+  source_port_range           = var.nsr_source_port_range
+  destination_port_range      = "443"
+  source_address_prefix       = var.nsr_source_address_prefix
+  destination_address_prefix  = var.nsr_destination_address_prefix
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.nsg.name
+  description = "Regla que permite acceso al puerto 443."
+}
+
 
 resource "azurerm_network_interface_security_group_association" "nisga" {
   network_interface_id      = azurerm_network_interface.ni.id

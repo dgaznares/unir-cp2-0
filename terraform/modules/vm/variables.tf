@@ -80,25 +80,25 @@ variable "nsg_name" {
 variable "nsr_name" {
   description = "Nombre de la regla de seguridad de red"
   type        = string
-  default     = "unir-dgm-nsr-ssh"
+  default     = "nsr-Rule"
   
 }
 variable "nsr_priority" {
   description = "Prioridad de la regla de seguridad de red"
   type        = number
-  default     = 1001
+  default     = 101
 }
-variable "nsr_direction" {
+variable "nsr_direction_Inbound" {
   description = "Dirección de la regla de seguridad de red"
   type        = string
   default     = "Inbound"
 }
-variable "nsr_access" {
+variable "nsr_access_Allow" {
   description = "Acceso de la regla de seguridad de red"
   type        = string
   default     = "Allow"
 }
-variable "nsr_protocol" {
+variable "nsr_protocol_Tcp" {
   description = "Protocolo de la regla de seguridad de red"
   type        = string
   default     = "Tcp"

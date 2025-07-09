@@ -48,47 +48,13 @@ output "linux_nsg_name" {
   description = "Nombre del grupo de seguridad de red"
   value     = azurerm_network_security_group.nsg.name
 }
-output "linux_nsr_name" {
-  description = "Nombre de la regla de seguridad de red"
-  value     = azurerm_network_security_rule.nsr.name
+
+output "linux_nsr_values" {
+  description = "Valores de la regla de las reglas seguridad de entrada al Network Security Group (NSG)."
+  value = [
+    azurerm_network_security_rule.nsr-allow-22.name,
+    azurerm_network_security_rule.nsr-allow-8080.name,
+    azurerm_network_security_rule.nsr-allow-443.name
+  ]
+  
 }
-output "linux_nsr_priority" {
-  description = "Prioridad de la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.priority
-}
-output "linux_nsr_direction" {
-  description = "Dirección de la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.direction
-}
-output "linux_nsr_access" {
-  description = "Acceso de la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.access
-}
-output "linux_nsr_protocol" {
-  description = "Protocolo de la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.protocol
-}
-output "linux_nsr_source_port_range" {
-  description = "Rango de puertos de origen de la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.source_port_range
-}
-output "linux_nsr_destination_port_range" {
-  description = "Rango de puertos de destino de la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.destination_port_range
-}
-output "linux_nsr_source_address_prefix" {
-  description = "Prefijo de dirección de origen de la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.source_address_prefix
-}
-output "linux_nsr_destination_address_prefix" {
-  description = "Prefijo de dirección de destino de la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.destination_address_prefix
-} 
-output "linux_nsr_rg_name" {
-  description = "Nombre del grupo de recursos para la regla de seguridad de red"
-  value       = azurerm_network_security_rule.nsr.resource_group_name
-}   
-output "linux_nsr_nsg_name" {
-  description = "Nombre del grupo de seguridad de red para la regla de seguridad"
-  value       = azurerm_network_security_rule.nsr.network_security_group_name
-} 
