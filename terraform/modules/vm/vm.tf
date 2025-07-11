@@ -110,6 +110,18 @@ resource "azurerm_network_interface_security_group_association" "nisga" {
 ###############################################################################
 #Creamos la maquina virtual de Linux.
 ###############################################################################
+
+resource "tls_private_key" "linux_vm_ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "local_file" "linux_private_key_pem" {
+  content  = tls_private_key.linux_vm_ssh_key.private_key_pem
+  filename = pathexpand(var.private_key_pem_path)
+  file_permission = var.private_key_pem_permission # Importante para la seguridad de la clave privada
+}
+
 resource "azurerm_linux_virtual_machine" "linux_vm" {
   name                  = var.vm_name
   location              = var.location
@@ -121,7 +133,8 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file(var.public_key_path)
+    #public_key = pathexpand(var.public_key_path)
+    public_key = tls_private_key.linux_vm_ssh_key.public_key_openssh
   }
   
   network_interface_ids = [azurerm_network_interface.ni.id]

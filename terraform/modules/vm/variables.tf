@@ -137,5 +137,14 @@ variable "public_key_path" {
   description = "Ruta al archivo de clave pública SSH"
   type        = string
   default     = "~/.ssh/id_rsa_azure_vm.pub"
-  
+}
+variable "private_key_pem_path" {
+  description = "Ruta al archivo de clave pública SSH"
+  type        = string
+  default     = "~/.ssh/azure_vm_generated_key.pem"
+}
+variable "private_key_pem_permission" {
+  description = "Permisos del archivo de clave privada SSH"
+  type        = string
+  default     = "0600" # Importante para la seguridad de la clave privada
 }
