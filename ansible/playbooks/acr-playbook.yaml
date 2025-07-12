@@ -1,0 +1,55 @@
+---
+- name: ACR Playbook
+  hosts: localhost
+  gather_facts: no
+  vars_files: 
+    - ../vars/acr-vars.yaml
+  
+  tasks:
+
+     ########################################################################################
+    #  README:
+    #  Esta tarea que hace el login en el ACR. 
+     ########################################################################################
+    - name: Me logo en mi ACR
+      containers.podman.podman_login:
+        username: "{{ acr_user }}"
+        password: "{{ acr_password }}"
+        registry: "{{ acr_name }}"
+  
+    #######################################################################################
+    #  README:
+    #  Esta tarea etiqueta las imagenes locales que voy a subir al ACR. 
+    #  La voy a dejar comentda porque, aunque fuciona, no es necesaria. 
+    #  La tarea que hace el push tambien estiqueta las imagenes al mismo tiempo.
+
+    # - name: Etiqueto las imagenes que voy a subir al ACR.
+    #   containers.podman.podman_tag:
+    #     image: "{{ item.image }}"
+    #     target_names:
+    #     - "{{ item.new_tag }}"
+    #   loop: 
+    #     - image:   "{{ local_nginx_image_name }}" 
+    #       new_tag: "{{ acr_name }}/{{ acr_nginx_image_name }}:{{ acr_images_tag }}" 
+    #     - image:   "{{ local_redis_image_name }}"
+    #       new_tag: "{{ acr_name }}/{{ acr_redis_image_name }}:{{ acr_images_tag }}" 
+    #     - image:   "{{ local_vote_front_image_name }}" 
+    #       new_tag: "{{ acr_name }}/{{ acr_vote_front_image_name }}:{{ acr_images_tag }}"
+
+    ########################################################################################
+
+    #  Esta tarea etiqueta y hace el push de las las imagenes locales al ACR. 
+     ########################################################################################
+    - name: Build and push an image using existing credentials
+      containers.podman.podman_image:
+        name: "{{ item.local_image }}"     
+        push: true
+        push_args:
+          dest: "{{ item.acr_image }}"
+      loop: 
+         - local_image: "{{ local_nginx_image_name }}" 
+           acr_image:   "{{ acr_name }}/{{ acr_nginx_image_name }}:{{ acr_images_tag }}"
+         - local_image: "{{ local_redis_image_name }}"
+           acr_image:   "{{ acr_name }}/{{ acr_redis_image_name }}:{{ acr_images_tag }}"
+         - local_image: "{{ local_vote_front_image_name }}" 
+           acr_image:   "{{ acr_name }}/{{ acr_vote_front_image_name }}:{{ acr_images_tag }}"  
