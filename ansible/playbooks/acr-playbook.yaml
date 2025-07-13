@@ -2,8 +2,6 @@
 - name: ACR Playbook
   hosts: localhost
   gather_facts: no
-  vars_files: 
-    - ../vars/acr-vars.yaml
   
   tasks:
 
