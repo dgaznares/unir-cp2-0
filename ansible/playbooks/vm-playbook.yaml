@@ -1,0 +1,31 @@
+---
+- name: VMPlaybook
+  hosts: vm
+  become: yes
+  gather_facts: no
+
+  tasks:
+  - name: Modificacion paquetes linux
+    apt:
+      update_cache: yes
+
+  - name: Instalar podman
+    apt:
+      name: podman
+      state: present
+
+  - name: Me logo en mi ACR
+    containers.podman.podman_login:
+      username: "{{ acr_user }}"
+      password: "{{ acr_password }}"
+      registry: "{{ acr_name }}"
+
+  - name: Arrancamos el contenedor de nginx
+    containers.podman.podman_container:
+      name: nginx-container
+      image: "{{ acr_name }}/{{ acr_nginx_image_name }}:{{ acr_images_tag }}"
+      state: started
+      restart_policy: always
+      ports:
+        - "8080:80"
+    
