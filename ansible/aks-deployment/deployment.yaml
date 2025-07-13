@@ -1,0 +1,115 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: casopractico2
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  namespace: casopractico2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: default 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-server-pod
+  namespace: casopractico2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-server-pod
+  template:
+    metadata:
+      labels:
+        app: redis-server-pod
+    spec:
+      containers: 
+      - name: server-redis
+        image: unirdgmacr.azurecr.io/redis:casopractico2
+        env:
+          - name: ALLOW_EMPTY_PASSWORD
+            value: "yes"
+        ports:
+          - containerPort: 6379
+            name: redis-port
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:
+          - name: redis-storage
+            mountPath: /var/lib/redis/data
+      volumes:
+      - name: redis-storage
+        persistentVolumeClaim:
+          claimName: redis-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote-front-pod
+  namespace: casopractico2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vote-front-pod
+  template:
+    metadata:
+      labels:
+        app: vote-front-pod
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers: 
+      - name: vote-front
+        image: unirdgmacr.azurecr.io/vote-front:casopractico2
+        env:
+          - name: REDIS
+            value: redis-comunication-service
+        ports:
+          - containerPort: 80
+            name: vote-front-port
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-comunication-service
+  namespace: casopractico2 
+spec:
+  type: NodePort
+  selector:
+    app: redis-server-pod
+  ports:
+  - port: 6379
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: vote-front-comunication-service
+  namespace: casopractico2
+spec:
+  type: LoadBalancer
+  selector:
+    app: vote-front-pod
+  ports:
+  - port: 80

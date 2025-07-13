@@ -1,0 +1,12 @@
+
+---
+- name: AKSPlaybook
+  hosts: localhost
+  gather_facts: no
+  vars:
+    deployment_path: "../aks-deployment/deployment.yaml"
+  tasks:
+  - name: Creamos un Deployment usando mi fichero de despliegue local
+    kubernetes.core.k8s:
+     state: present
+     src: "{{ deployment_path }}"
