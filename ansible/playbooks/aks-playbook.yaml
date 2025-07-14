@@ -10,3 +10,16 @@
     kubernetes.core.k8s:
      state: present
      src: "{{ deployment_path }}"
+
+#  README.
+#  Esta es otra tarea para hacer todo el despliegue de las aplicaciones indicando mi contexto de aks dentro de la 
+#  tarea de ansible junto con  el .config. En la anterior no es necesio especificar el contexto porque
+#  ya lo tengo configurado en mi .kube/config, ya que es lo primero que hay que hacer cuando se crea un AKS
+#  de nuevas, como estamos haciedo cada vez que creamos la infrestructura de Azure.
+
+#  - name: Desplegar manifiesto en Kubernetes usando un contexto específico
+  # kubernetes.core.k8s:
+  #   kubeconfig: ~/.kube/config
+  #   context: munirdgmaks
+  #   state: present
+  #   src: "{{ deployment_path }}"  
