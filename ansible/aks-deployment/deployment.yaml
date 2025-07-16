@@ -32,12 +32,22 @@ spec:
       labels:
         app: redis-server-pod
     spec:
+      securityContext:
+        fsGroup: 1001 # Gestionar los permisos de los volúmenes montados por ese Pod
       containers: 
       - name: server-redis
         image: unirdgmacr.azurecr.io/redis:casopractico2
+        securityContext:
+          runAsUser: 1001
         env:
           - name: ALLOW_EMPTY_PASSWORD
             value: "yes"
+          - name: REDIS_AOF_ENABLED # Habilita la persistencia AOF
+            value: "yes"
+          - name: REDIS_RDB_ENABLED # Habilita la persistencia RDB
+            value: "yes"
+          - name: REDIS_DATA_DIR # Siendo explícito con el directorio donde están los datos.
+            value: "/bitnami/redis/data"           
         ports:
           - containerPort: 6379
             name: redis-port
@@ -50,7 +60,8 @@ spec:
             cpu: "500m"
         volumeMounts:
           - name: redis-storage
-            mountPath: /var/lib/redis/data
+            mountPath: /bitnami/redis/data
+            #mountPath: /var/lib/redis/data
       volumes:
       - name: redis-storage
         persistentVolumeClaim:
